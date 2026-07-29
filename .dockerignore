@@ -1,6 +1,10 @@
 node_modules
 .nuxt
+# 允许方案 B 静态镜像复制 generate 产物
 .output
+!apps/nuxt/.output/
+!apps/nuxt/.output/public/
+!apps/nuxt/.output/public/**
 dist
 .git
 .github
