@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useSettingStore } from '../stores/setting.ts'
 import { useRouter } from 'vue-router'
-import { IS_DEV } from '../config/env'
 import { withAppBaseURL } from '../utils/base-url'
 
 const settingStore = useSettingStore()
@@ -10,11 +9,7 @@ const darkLogoSrc = withAppBaseURL('/imgs/logo/logo-text-black.png')
 const lightLogoSrc = withAppBaseURL('/imgs/logo/logo-text-white.png')
 
 function goHome() {
-  if (IS_DEV) {
-    router.push('/')
-  } else {
-    location.href = window.atob('aHR0cHM6Ly90eXBld29yZHMuY2M=')
-  }
+  router.push('/')
 }
 </script>
 

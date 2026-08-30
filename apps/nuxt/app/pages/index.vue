@@ -1,11 +1,18 @@
 <script setup lang="ts">
-import { APP_NAME, GITHUB, Origin } from '@typewords/core/config/env.ts'
+import { APP_NAME, GITHUB, getPublicOrigin } from '@typewords/core/config/env.ts'
 import { BaseIcon } from '@typewords/base'
 import { getSystemTheme, listenToSystemThemeChange, setTheme, swapTheme } from '@typewords/core/hooks/theme.ts'
 import ChannelIcons from '@typewords/core/components/channel-icons/ChannelIcons.vue'
 import { usePlayBeep, usePlayCorrect, usePlayKeyboardAudio } from '@typewords/core/hooks/sound.ts'
 
 definePageMeta({ layout: 'empty' })
+
+const runtimeConfig = useRuntimeConfig()
+const siteOrigin = $computed(() => {
+  const fromEnv = String(runtimeConfig.public.origin || '').replace(/\/$/, '')
+  if (fromEnv && fromEnv !== 'http://localhost') return fromEnv
+  return getPublicOrigin() || fromEnv || 'http://localhost'
+})
 
 let theme = $ref('light')
 
@@ -233,7 +240,7 @@ useSeoMeta({
   ogDescription: () => seoDesc,
   twitterTitle: () => seoTitle,
   twitterDescription: () => seoDesc,
-  ogUrl: 'https://typewords.cc/',
+  ogUrl: () => `${siteOrigin}/`,
 })
 
 const i18nLocaleMap: Record<string, string> = {
@@ -242,13 +249,13 @@ const i18nLocaleMap: Record<string, string> = {
   th: 'th', vi: 'vi', id: 'id', tw: 'zh-TW',
 }
 useHead({
-  link: [
-    ...Object.entries(i18nLocaleMap).map(([code, hreflang]) => ({
+  link: () => [
+    ...Object.entries(i18nLocaleMap).map(([, hreflang]) => ({
       rel: 'alternate',
       hreflang,
-      href: 'https://typewords.cc/',
+      href: `${siteOrigin}/`,
     })),
-    { rel: 'alternate', hreflang: 'x-default', href: 'https://typewords.cc/' },
+    { rel: 'alternate', hreflang: 'x-default', href: `${siteOrigin}/` },
   ],
 })
 </script>
@@ -464,12 +471,12 @@ useHead({
             <!-- 网站地址 -->
             <div class="flex justify-center lg:justify-start mt-4">
               <a
-                :href="Origin"
+                :href="siteOrigin"
                 target="_blank"
                 class="inline-flex items-center gap-1.5 text-[var(--hw-text-3)] no-underline hover:text-[#7c3aed] transition-colors duration-150"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 opacity-50"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                {{ Origin }}
+                {{ siteOrigin }}
               </a>
             </div>
           </div>

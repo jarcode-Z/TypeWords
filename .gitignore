@@ -39,3 +39,10 @@ report.html
 !.env.example
 public/vscode
 apps/TypeWordsMiniApp
+
+# Self-host mirrored CDN assets (keep placeholders)
+selfhost/files/**
+!selfhost/files/.gitkeep
+selfhost/libs/**
+!selfhost/libs/.gitkeep
+!selfhost/README.md

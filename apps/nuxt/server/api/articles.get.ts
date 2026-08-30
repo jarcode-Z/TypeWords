@@ -1,10 +1,19 @@
-import { readFileSync } from 'fs'
+import { existsSync, readFileSync } from 'fs'
 import { resolve } from 'path'
 
 export default defineEventHandler(() => {
-    return $fetch('https://typewords.cc/list/article.json')
-    // 模拟后端接口返回 JSON 数据
-    const path = resolve(process.cwd(), 'public/list/article.json')
-    const data = JSON.parse(readFileSync(path, 'utf-8'))
-    return data
+  const candidates = [
+    resolve(process.cwd(), 'selfhost/files/list/article.json'),
+    resolve(process.cwd(), '../../selfhost/files/list/article.json'),
+    resolve(process.cwd(), 'public/list/article.json'),
+  ]
+  for (const path of candidates) {
+    if (existsSync(path)) {
+      return JSON.parse(readFileSync(path, 'utf-8'))
+    }
+  }
+  throw createError({
+    statusCode: 404,
+    statusMessage: 'article list not found; run scripts/sync-selfhost-assets.sh first',
+  })
 })

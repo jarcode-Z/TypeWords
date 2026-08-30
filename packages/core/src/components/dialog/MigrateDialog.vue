@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Toast } from '@typewords/base'
-import { Origin } from '../../config/env.ts'
+import { getPublicOrigin } from '../../config/env.ts'
 import { set } from 'idb-keyval'
 import { defineAsyncComponent } from 'vue'
 
@@ -89,7 +89,7 @@ async function transfer() {
   >
     <div class="px-4 flex-col center w-100">
       <h2 class="text-align-center text-2xl">
-        {{ $t('migrate_new_domain') }} <span class="color-blue">{{ Origin }}</span>
+        {{ $t('migrate_new_domain') }} <span class="color-blue">{{ getPublicOrigin() }}</span>
       </h2>
       <h3>
         {{ $t('migrate_old_domain_notice') }}

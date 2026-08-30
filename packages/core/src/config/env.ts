@@ -3,25 +3,35 @@ import { offset } from '@floating-ui/dom'
 import { ShortcutKey, WordPracticeMode, WordPracticeStage } from '../types/enum.ts'
 
 export const GITHUB = 'https://github.com/zyronon/TypeWords'
-export const Host = 'typewords.cc'
-export const Old_Host = '2study.top'
+/** Self-host: prefer runtime location; fallback for SSR */
+export const Host = 'localhost'
+export const Old_Host = ''
 export const EMAIL = 'zyronon@163.com'
-export const Origin = `https://${Host}`
+export const Origin = ''
 export const APP_NAME = 'Type Words'
 export const IS_DEV = import.meta.env.MODE === 'development'
+
+/** Browser origin for share UI / bookmarks (IP or domain). */
+export function getPublicOrigin(): string {
+  if (import.meta.client && typeof window !== 'undefined') return window.location.origin
+  return Origin
+}
+
+export function getPublicHost(): string {
+  if (import.meta.client && typeof window !== 'undefined') return window.location.host
+  return Host
+}
 
 const common = {
   word_dict_list_version: 1,
 }
 const map = {
   DEV: {
-    // API: 'http://localhost/',
-    API: 'https://api.typewords.cc/',
-    // RESOURCE_URL: 'https://dicts.2study.top/',
-    // RESOURCE_URL: '/',
-    RESOURCE_URL: 'https://files.typewords.cc/',
-    // RESOURCE_URL: 'http://localhost/static/',
-    LIBS_URL: 'https://libs.typewords.cc/',
+    // Official API unused when IS_OFFICIAL is false
+    API: '/',
+    // Same-origin static mirrors (see selfhost/ + Dockerfile.static)
+    RESOURCE_URL: '/files/',
+    LIBS_URL: '/libs/',
   },
 }
 
@@ -50,12 +60,12 @@ export const RESOURCE_PATH = ENV.API + 'static'
 
 export const DICT_LIST = {
   WORD: {
-    ALL: ENV.RESOURCE_URL + `/list/word.json`,
-    RECOMMENDED: ENV.RESOURCE_URL + `/list/recommend_word.json`,
+    ALL: ENV.RESOURCE_URL + 'list/word.json',
+    RECOMMENDED: ENV.RESOURCE_URL + 'list/recommend_word.json',
   },
   ARTICLE: {
-    ALL: ENV.RESOURCE_URL + `/list/article.json`,
-    RECOMMENDED: ENV.RESOURCE_URL + `/list/recommend_article.json`,
+    ALL: ENV.RESOURCE_URL + 'list/article.json',
+    RECOMMENDED: ENV.RESOURCE_URL + 'list/recommend_article.json',
   },
 }
 
@@ -106,9 +116,9 @@ export const TourConfig = {
 
 export const LIB_JS_URL = {
   SHEPHERD: `${ENV.LIBS_URL}Shepherd.14.5.1.mjs.js`,
-  SNAPDOM: `${ENV.LIBS_URL}/snapdom.min.js`,
-  JSZIP: `${ENV.LIBS_URL}/jszip.min.js`,
-  XLSX: `${ENV.LIBS_URL}/xlsx.full.min.js`,
+  SNAPDOM: `${ENV.LIBS_URL}snapdom.min.js`,
+  JSZIP: `${ENV.LIBS_URL}jszip.min.js`,
+  XLSX: `${ENV.LIBS_URL}xlsx.full.min.js`,
 }
 export const PronunciationApi = 'https://dict.youdao.com/dictvoice?audio='
 export const DefaultShortcutKeyMap = {

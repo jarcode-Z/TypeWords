@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { BaseButton, Close } from '@typewords/base'
 import { watch } from 'vue'
-import { APP_NAME, Host } from '../../config/env.ts'
+import { APP_NAME, getPublicHost } from '../../config/env.ts'
 import { isMobile } from '../../utils'
 
 let showNotice = $ref(false)
@@ -51,7 +51,7 @@ watch(
       <div class="collect">
         <div class="href-wrapper">
           <div class="round">
-            <div class="text-base">{{ Host }}</div>
+            <div class="text-base">{{ getPublicHost() }}</div>
             <IconMdiStarOutline />
           </div>
           <div class="right">

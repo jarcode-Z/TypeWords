@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { APP_NAME, LIB_JS_URL, Origin } from '../../config/env.ts'
+import { APP_NAME, LIB_JS_URL, getPublicOrigin } from '../../config/env.ts'
 import { BaseIcon, Progress } from '@typewords/base'
 import { usePracticeStore } from '../../stores/practice.ts'
 import { useBaseStore } from '../../stores/base.ts'
@@ -179,7 +179,7 @@ const sentence = $computed(() => {
             <div class="flex justify-between items-end">
               <div class="space-y-2">
               <div class="font-bold text-2xl">Type Words</div>
-              <div class="text-base">{{ Origin }}</div>
+              <div class="text-base">{{ getPublicOrigin() }}</div>
               <div class="text-xs">一次敲击，一点进步，开源单词学习工具</div>
             </div>
               <img :src="withAppBaseURL('/imgs/share/qr.png')" class="w-20 w-20 rounded-md overflow-hidden" alt="" />
